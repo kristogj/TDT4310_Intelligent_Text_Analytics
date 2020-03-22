@@ -1,8 +1,11 @@
 import tweepy
-from nltk.corpus import TwitterCorpusReader
+from nltk.corpus import TwitterCorpusReader, PlaintextCorpusReader, stopwords
 import os
 import json
 from collections import Counter
+from nltk.tokenize import TweetTokenizer
+from string import punctuation
+punctuation = punctuation + '’' + '…' + '️'
 
 # Enter your keys/secrets as strings in the following fields
 consumer_key = "mmDUOjKIlRFQDyfudDFKCWOaF"
@@ -24,26 +27,23 @@ if not os.path.exists("./twitter-files"):
         latest = api.user_timeline(screen_name=s_name, count=100, tweet_mode="extended")
         tweet_list = []
         # Only keep some features from each tweet
+        file = open("./twitter-files/{}.txt".format(s_name), 'w', encoding="utf8")
         for tweet in latest:
-            tweet_information = dict()
-            tweet_information['full_text'] = tweet.full_text
-            tweet_information['created_at'] = tweet.created_at.strftime("%Y-%m-%d %H:%M:%S")
-            tweet_information['screen_name'] = s_name
-            tweet_list.append(tweet_information)
-
-        # Dump all tweets to a file
-        file_des = open("./twitter-files/{}.json".format(s_name), 'w', encoding="utf8")
-
-        # dump tweets to the file
-        json.dump(tweet_list, file_des, indent=4, sort_keys=True)
-        file_des.close()
-
-
+            file.write(tweet.full_text + "\t")
+        file.close()
 
 # Init CropusReader
-reader = TwitterCorpusReader(root="./twitter-files", fileids=".*\.json")
+
+stopw = stopwords.words("english")
+reader = PlaintextCorpusReader(root="./twitter-files", fileids=".*\.txt", word_tokenizer=TweetTokenizer())
 ids = reader.fileids()
-for id in ids:
-    words = reader.strings(id)
+counter = Counter()
+for word in reader.words():
+    word = word.lower()
+    if word not in stopw and word not in punctuation:
+        counter[word] += 1
+
+top_10 = sorted(list(counter.items()), key=lambda x: x[1], reverse=True)[:10]
+print(top_10)
 
 
