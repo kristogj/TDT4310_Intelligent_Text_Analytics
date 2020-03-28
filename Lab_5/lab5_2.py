@@ -11,10 +11,11 @@ binding_ops()
 READ_EXPRESSION = Expression.fromstring
 
 
-def task2(task, doc, expr):
-    print("Task 2{}".format(task))
+def task2(task, doc, expr, explication):
+    print("\nTask 2{}".format(task))
     print(doc)
     print(READ_EXPRESSION(expr))
+    print(explication)
 
 
 if __name__ == '__main__':
@@ -26,10 +27,16 @@ if __name__ == '__main__':
             "Pat didn’t cough or sneeze.",
             "If you don’t come if I call, I won’t come if you call."]
     exprs = ["A -> -B",
-             "RUN & BARK",
-             "-RAIN -> SNOW",
-             "(OLIVE | TOFU) -> -HAPPY",
-             "-(COUGH | SNEEZE)",
-             "D"]
+             "R & B",
+             "-R -> S",
+             "(O | T) -> -IH",
+             "-(C | S)",
+             "(A -> -B) -> (C -> -D)"]
+    explinations = ["A = Angus sings, B = Bertie sulks",
+                    "R = Cyril runs, B = Cyril Barks",
+                    "R = It will rain, S = It will snow",
+                    "O = Olive comes, T = Tofu comes, IH = Irene will be happy",
+                    "C = Pat cough, S = Path sneeze",
+                    "A = I call, B = You come, C = You call, D = I come"]
     for x in range(len(tasks)):
-        task2(tasks[x], docs[x], exprs[x])
+        task2(tasks[x], docs[x], exprs[x], explinations[x])
