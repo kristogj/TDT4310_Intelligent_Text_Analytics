@@ -1,7 +1,4 @@
-import nltk
-from nltk.sem.logic import LogicParser, boolean_ops, equality_preds, binding_ops, Expression
-from nltk.sem.relextract import extract_rels
-import re
+from nltk.sem.logic import boolean_ops, equality_preds, binding_ops, Expression
 
 print("Legal")
 boolean_ops()
@@ -36,7 +33,7 @@ if __name__ == '__main__':
                     "R = Cyril runs, B = Cyril Barks",
                     "R = It will rain, S = It will snow",
                     "O = Olive comes, T = Tofu comes, IH = Irene will be happy",
-                    "C = Pat cough, S = Path sneeze",
+                    "C = Pat cough, S = Pat sneeze",
                     "A = I call, B = You come, C = You call, D = I come"]
     for x in range(len(tasks)):
         task2(tasks[x], docs[x], exprs[x], explinations[x])
